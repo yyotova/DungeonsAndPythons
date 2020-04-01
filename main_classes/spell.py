@@ -1,4 +1,4 @@
-class spell:
+class Spell:
 	
 	def __init__(self,name,damage,mana_cost,cast_range):
 		self.name
