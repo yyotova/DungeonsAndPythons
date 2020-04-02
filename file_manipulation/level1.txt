@@ -1,0 +1,7 @@
+S.##.....T
+#T##..###.
+#.###E###E
+#.E...###.
+###T#####G
+[(type=health,20),(mana,20),(name="weapon",20),("spell",20)]
+[(name="orc",health=100,mana=100,damage=20)]
