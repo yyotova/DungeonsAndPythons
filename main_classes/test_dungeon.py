@@ -18,8 +18,11 @@ class test_dungeon_class(unittest.TestCase):
 		map.fill_location_list()
 		# print(map.__dict__)
 		hero = Hero(name = "Bron", title="Dragonslayer", health=100, mana=100, mana_regeneration_rate=2)
+		
 		map.spawn(hero)
 		# print(map.hero_location)
+		map.print_map()
+		print("==================================================")
 		map.move_hero("right")
 		map.print_map()
 		# print(map.hero_location)
@@ -39,6 +42,6 @@ class test_dungeon_class(unittest.TestCase):
 		map.print_map()
 		# print(map.hero_location)
 		print("==================================================")
-		
+		# print(map.test_hero())
 if __name__ == '__main__':
 		unittest.main()	

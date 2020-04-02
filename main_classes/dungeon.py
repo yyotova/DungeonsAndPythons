@@ -1,5 +1,5 @@
 # import file_manipulation 
-
+from hero import Hero
 
 def get_list_object(array,object):
 	list_helper=[]	
@@ -128,3 +128,7 @@ class Dungeon:
 	def check_for_enemy(self):
 		return check_for_something(self.hero_location,self.enemy_location)
 		# fight now
+
+	# def hero_attack(self,by="spell"):
+	# 	self.hero.attack(by)
+	# 
