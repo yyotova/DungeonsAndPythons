@@ -1,5 +1,5 @@
-from spell import Spell
-from weapon import Weapon
+from main_classes.spell import Spell
+from main_classes.weapon import Weapon
 
 class Enemy(Weapon,Spell):
     def __init__(self, health, mana, damage):
