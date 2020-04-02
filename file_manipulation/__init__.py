@@ -1,2 +1,2 @@
-from file_manipulation import read_file
+import file_manipulation
 print("test")
