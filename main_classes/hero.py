@@ -6,14 +6,14 @@ class Hero(Weapon, Spell):
         self.name = name
         self.title = title
         self.health = health
-        self. mana = mana
+        self.mana = mana
         self.mana_regeneration_rate = mana_regeneration_rate
         self.max_health = health
         self.max_mana = mana
         self.weapon = None
         self.spell = None
         self.location=[]
-        
+
     def known_as(self):
         return f'{self.name} the {self.title}'
 

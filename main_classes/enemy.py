@@ -9,7 +9,7 @@ class Enemy(Weapon,Spell):
         self.weapon = None
         self.spell = None
         self.location=[]
-        
+
     def get_health(self):
         return self.health
 
@@ -45,9 +45,9 @@ class Enemy(Weapon,Spell):
             if self.weapon != None:
                 return self.weapon.damage
             else:
-                return 0
+                return self.damage
         else:
             if self.spell != None:
                 return self.spell.damage
             else:
-                return 0
+                return self.damage

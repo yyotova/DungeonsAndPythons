@@ -6,5 +6,6 @@ class Spell:
         self.cast_range = cast_range
 
     def __eq__(self, other):
-        return self.__dict__ == other.__dict__
+    	if other!=None:
+        	return self.__dict__ == other.__dict__
 
