@@ -1,3 +1,6 @@
+from spell import Spell
+from weapon import Weapon
+ 
 class Hero(Weapon, Spell):
     def __init__(self, name, title, health, mana, mana_regeneration_rate):
         self.name = name
@@ -20,7 +23,7 @@ class Hero(Weapon, Spell):
         return self.mana
 
     def is_alive(self):
-        return self,health > 0
+        return self.health > 0
 
     def can_cast(self):
         return self.mana > 0
@@ -63,3 +66,5 @@ class Hero(Weapon, Spell):
         else:
             if self.spell != None:
                 return self.spell.damage
+            else:
+                return 0
