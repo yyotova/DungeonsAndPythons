@@ -1,7 +1,7 @@
 import sys
 sys.path.append('.')
 
-from DungeonsAndPythons.file_manipulation.read_file import read_from_file 
+from file_manipulation.read_file import read_from_file 
 class Dungeon:
 	
 	def __init__(self,file_name):
