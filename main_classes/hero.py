@@ -12,7 +12,8 @@ class Hero(Weapon, Spell):
         self.max_mana = mana
         self.weapon = None
         self.spell = None
-
+        self.location=[]
+        
     def known_as(self):
         return f'{self.name} the {self.title}'
 
