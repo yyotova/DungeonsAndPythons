@@ -10,6 +10,12 @@ def get_list_object(array,object):
 
 	return list_helper
 
+def check_for_something(points,array):
+	for obstacle in array:
+		if points[0]==obstacle[0] and points[1]==obstacle[1]:
+			return True
+	return False
+
 
 class Dungeon:
 	
@@ -65,13 +71,25 @@ class Dungeon:
 		
 		if direction=="UP":
 			self.hero_location[0]-=1
+			if self.check_for_obstacles():
+				self.hero_location[0]+=1
+				# stops hero from going into walls
+
 		elif direction=="DOWN":
 			self.hero_location[0]+=1
+			if self.check_for_obstacles():
+				self.hero_location[0]-=1
+				
 		elif direction=="RIGHT":
 			self.hero_location[1]+=1 
+			if self.check_for_obstacles():
+				self.hero_location[1]-=1
+
 		elif direction=="LEFT":
 			self.hero_location[1]-=1
-		
+			if self.check_for_obstacles():
+				self.hero_location[1]+=1
+
 		# move here put on map
 		self.put_hero_on_map()
 		# check for leaving level
@@ -99,3 +117,14 @@ class Dungeon:
 			self.move_hero("RIGHT")
 		if hero_point_y>len(self.level_array):
 			self.move_hero("LEFT")
+
+	def check_for_obstacles(self):
+		return check_for_something(self.hero_location,self.obstacle_localtion)
+
+	def check_for_treasure(self):
+		return check_for_something(self.hero_location,self.treasures_location)
+		# get radom treasure
+	
+	def check_for_enemy(self):
+		return check_for_something(self.hero_location,self.enemy_location)
+		# fight now
