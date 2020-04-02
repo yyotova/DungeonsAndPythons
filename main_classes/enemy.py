@@ -8,7 +8,8 @@ class Enemy(Weapon,Spell):
         self.damage = damage
         self.weapon = None
         self.spell = None
-
+        self.location=[]
+        
     def get_health(self):
         return self.health
 
