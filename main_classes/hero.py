@@ -12,13 +12,8 @@ class Hero(Weapon, Spell):
         self.max_mana = mana
         self.weapon = None
         self.spell = None
-<<<<<<< HEAD
         self.location = [-1, -1]
         
-=======
-        self.location=[]
-
->>>>>>> Started fight club
     def known_as(self):
         return f'{self.name} the {self.title}'
 

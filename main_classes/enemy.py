@@ -9,14 +9,10 @@ class Enemy(Weapon,Spell):
         self.weapon = None
         self.spell = None
         self.location=[]
-<<<<<<< HEAD
         
     def __eq__(self, other):
         return self.__dict__ == other.__dict__
         
-=======
-
->>>>>>> Started fight club
     def get_health(self):
         return self.health
 
