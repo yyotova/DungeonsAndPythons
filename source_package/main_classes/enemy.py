@@ -14,7 +14,7 @@ class Enemy(Weapon,Spell):
         
     def __eq__(self, other):
         return self.__dict__ == other.__dict__
-        
+
     def get_health(self):
         return self.health
 
