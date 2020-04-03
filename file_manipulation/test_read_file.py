@@ -37,10 +37,10 @@ class test_read_from_file(unittest.TestCase):
         res = read_from_file_with_enemies('enemies.txt')
         exp = {
         'enemy': [
-            {"name": "Targaryen","damage": 100, "mana_cost": 100,"cast_range": 2},
-            {"name":"Lannister", "damage": 100,"mana_cost": 100,"cast_range": 2},
-            {"name":"Stark", "damage": 100, "mana_cost":100,"cast_range": 2},
-            {"name":"Baratheon", "damage": 100,"mana_cost": 100, "cast_range":2}
+            {"health": 100, "damage": 10, "mana": 150},
+            {"health": 200, "damage": 20, "mana": 100},
+            {"health": 150, "damage": 50, "mana": 90},
+            {"health": 180, "damage": 5, "mana": 50}
             ]
         }
 
