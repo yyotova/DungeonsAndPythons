@@ -1,9 +1,11 @@
 import unittest
-from fight import Fight
-from hero import Hero
-from enemy import Enemy
-from weapon import Weapon
-from spell import Spell
+import sys
+sys.path.append('.')
+from source_package.main_classes.fight import Fight
+from source_package.main_classes.hero import Hero
+from source_package.main_classes.enemy import Enemy
+from source_package.main_classes.weapon import Weapon
+from source_package.main_classes.spell import Spell
 class Test_Fight(unittest.TestCase):
 	def test_fight(self):
 		hero = Hero(name = "Bron", title="Dragonslayer", health=100, mana=100, mana_regeneration_rate=2)

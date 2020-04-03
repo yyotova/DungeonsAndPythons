@@ -1,5 +1,7 @@
-# import file_manipulation 
-from hero import Hero
+import sys
+sys.path.append('.')
+from source_package.file_manipulation.read_file import read_from_file_with_first_level
+from source_package.main_classes.hero import Hero
 
 def get_list_object(array,object):
 	list_helper=[]	

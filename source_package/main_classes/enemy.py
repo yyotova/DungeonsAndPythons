@@ -1,5 +1,7 @@
-from main_classes.spell import Spell
-from main_classes.weapon import Weapon
+import sys
+sys.path.append('.')
+from source_package.main_classes.spell import Spell
+from source_package.main_classes.weapon import Weapon
 
 class Enemy(Weapon,Spell):
     def __init__(self, health, mana, damage):

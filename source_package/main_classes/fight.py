@@ -1,5 +1,7 @@
-from hero import Hero
-from enemy import Enemy
+import sys
+sys.path.append('.')
+from source_package.main_classes.hero import Hero
+from source_package.main_classes.enemy import Enemy
 class Fight(Hero,Enemy):
 
 	def __init__(self,hero,enemy):

@@ -1,5 +1,5 @@
 import unittest
-from read_file import (read_from_file_with_first_level,
+from souce_package.file_manipulation.read_file import (read_from_file_with_first_level,
                     read_from_file_with_treasures,
                     read_from_file_with_enemies)
 
