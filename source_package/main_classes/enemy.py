@@ -47,12 +47,12 @@ class Enemy(Weapon,Spell):
 
     def attack(self, by):
         if by == 'weapon':
-            if self.weapon != None:
+            if self.weapon is not None:
                 return self.weapon.damage
             else:
                 return self.damage
         else:
-            if self.spell != None:
+            if self.spell is not None:
                 self.mana -= self.spell.mana
                 return self.spell.damage
             else:

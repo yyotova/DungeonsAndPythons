@@ -71,7 +71,11 @@ class Hero(Weapon, Spell):
             else:
                 return 0
         else:
+<<<<<<< HEAD
             if self.spell is not None:
+=======
+            if self.spell != None:
+>>>>>>> fix mortal kombat
                 self.mana -= self.spell.mana_cost
                 return self.spell.damage
             else:
