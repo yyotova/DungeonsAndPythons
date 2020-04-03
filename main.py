@@ -1,1 +1,1 @@
-from file_manipulation.read_file import read_from_file
+from source_package.file_manipulation.read_file import read_from_file

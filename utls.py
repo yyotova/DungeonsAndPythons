@@ -1,7 +1,7 @@
-from main_classes.potion import Potion
-from main_classes.spell import Spell
-from main_classes.weapon import Weapon
-from main_classes.enemy import Enemy
+from souce_package.main_classes.potion import Potion
+from souce_package.main_classes.spell import Spell
+from souce_package.main_classes.weapon import Weapon
+from souce_package.main_classes.enemy import Enemy
 from random import randint
 
 def convert_treasures_as_instance(dict_with_treasures):

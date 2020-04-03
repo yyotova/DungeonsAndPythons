@@ -1,5 +1,7 @@
-# import file_manipulation 
-from hero import Hero
+import sys
+sys.path.append('.')
+from source_package.file_manipulation.read_file import read_from_file_with_first_level
+from source_package.main_classes.hero import Hero
 
 def get_list_object(array,object):
 	list_helper=[]	
@@ -55,7 +57,7 @@ class Dungeon:
 			return False
 		else:
 			self.hero=hero
-			self.hero_location=self.spawn_location_list[0]
+			self.hero.location=self.spawn_location_list[0]
 			self.put_hero_on_map()
 
 	def print_map(self):
@@ -65,30 +67,30 @@ class Dungeon:
 	def move_hero(self,direction):
 		# make them capital to ignore small or capital letter
 		direction=direction.upper()
-		# hero_location[x,y]
+		# hero.location[x,y]
 		# not using else because it looks better
 		self.remove_hero_from_map() #remove hero from map
 		
 		if direction=="UP":
-			self.hero_location[0]-=1
+			self.hero.location[0]-=1
 			if self.check_for_obstacles():
-				self.hero_location[0]+=1
+				self.hero.location[0]+=1
 				# stops hero from going into walls
 
 		elif direction=="DOWN":
-			self.hero_location[0]+=1
+			self.hero.location[0]+=1
 			if self.check_for_obstacles():
-				self.hero_location[0]-=1
+				self.hero.location[0]-=1
 				
 		elif direction=="RIGHT":
-			self.hero_location[1]+=1 
+			self.hero.location[1]+=1 
 			if self.check_for_obstacles():
-				self.hero_location[1]-=1
+				self.hero.location[1]-=1
 
 		elif direction=="LEFT":
-			self.hero_location[1]-=1
+			self.hero.location[1]-=1
 			if self.check_for_obstacles():
-				self.hero_location[1]+=1
+				self.hero.location[1]+=1
 
 		# move here put on map
 		self.put_hero_on_map()
@@ -96,19 +98,19 @@ class Dungeon:
 		self.moving_out_of_bounds()
 
 	def remove_hero_from_map(self):
-		hero_point_x=self.hero_location[0]
-		hero_point_y=self.hero_location[1]
+		hero_point_x=self.hero.location[0]
+		hero_point_y=self.hero.location[1]
 		self.level_array[hero_point_x][hero_point_y]="."
 		
 
 	def put_hero_on_map(self):
-		hero_point_x=self.hero_location[0]
-		hero_point_y=self.hero_location[1]
+		hero_point_x=self.hero.location[0]
+		hero_point_y=self.hero.location[1]
 		self.level_array[hero_point_x][hero_point_y]="H"
 
 	def moving_out_of_bounds(self):
-		hero_point_x=self.hero_location[0]
-		hero_point_y=self.hero_location[1]
+		hero_point_x=self.hero.location[0]
+		hero_point_y=self.hero.location[1]
 		if hero_point_x<0:
 			self.move_hero("DOWN")
 		if hero_point_x>len(self.level_array[hero_point_y]):
@@ -119,14 +121,16 @@ class Dungeon:
 			self.move_hero("LEFT")
 
 	def check_for_obstacles(self):
-		return check_for_something(self.hero_location,self.obstacle_localtion)
+		return check_for_something(self.hero.location,self.obstacle_localtion)
 
 	def check_for_treasure(self):
-		return check_for_something(self.hero_location,self.treasures_location)
+		return check_for_something(self.hero.location,self.treasures_location)
 		# get radom treasure
+		# rendom treasure
+		# self.hero.take_mana
 	
 	def check_for_enemy(self):
-		return check_for_something(self.hero_location,self.enemy_location)
+		return check_for_something(self.hero.location,self.enemy_location)
 		# fight now
 
 	# def hero_attack(self,by="spell"):

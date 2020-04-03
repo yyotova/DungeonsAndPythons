@@ -1,7 +1,9 @@
 import unittest
-from hero import Hero
-from spell import Spell
-from weapon import Weapon
+import sys
+sys.path.append('.')
+from source_package.main_classes.hero import Hero
+from source_package.main_classes.spell import Spell
+from source_package.main_classes.weapon import Weapon
 
 class TestHero(unittest.TestCase):
     def test_known_as_with_hero_returns_string(self):

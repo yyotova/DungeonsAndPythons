@@ -1,9 +1,12 @@
 import unittest
-from dungeon import Dungeon
-from spell import Spell
-from weapon import Weapon
-from enemy import Enemy
-from hero import Hero
+import sys
+sys.path.append('.')
+
+from source_package.main_classes.dungeon import Dungeon
+from source_package.main_classes.spell import Spell
+from source_package.main_classes.weapon import Weapon
+from source_package.main_classes.enemy import Enemy
+from source_package.main_classes.hero import Hero
 class test_dungeon_class(unittest.TestCase):
 	def test_dungeon_class_create_and_list(self):
 		dungeon_map=[["S",".","#","#",".",".",".",".",".","T" ],
