@@ -2,6 +2,7 @@ from main_classes.potion import Potion
 from main_classes.spell import Spell
 from main_classes.weapon import Weapon
 from main_classes.enemy import Enemy
+from random import randint
 
 def convert_treasures_as_instance(dict_with_treasures):
     list_with_instance = []
@@ -31,3 +32,14 @@ def convert_enemies_as_instance(dict_with_enemies):
         list_with_instance.append(Enemy(health = enemy['health'],damage = enemy['damage'], mana = enemy['mana']))
 
     return list_with_instance
+
+
+def random_treasure(treasures):
+    index = randint(0, len(treasures))
+
+    return treasures[index]
+
+def random_enemy(enemies):
+    index = randint(0, len(enemies))
+
+    return enemies[index]
