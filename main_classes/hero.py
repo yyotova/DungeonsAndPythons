@@ -1,5 +1,5 @@
-from spell import Spell
-from weapon import Weapon
+from main_classes.spell import Spell
+from main_classes.weapon import Weapon
  
 class Hero(Weapon, Spell):
     def __init__(self, name, title, health, mana, mana_regeneration_rate):
