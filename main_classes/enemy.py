@@ -51,6 +51,7 @@ class Enemy(Weapon,Spell):
                 return 0
         else:
             if self.spell != None:
+                self.mana -= self.spell.mana
                 return self.spell.damage
             else:
                 return 0

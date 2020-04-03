@@ -12,7 +12,7 @@ class Hero(Weapon, Spell):
         self.max_mana = mana
         self.weapon = None
         self.spell = None
-        self.location=[]
+        self.location = [-1, -1]
         
     def known_as(self):
         return f'{self.name} the {self.title}'
@@ -47,6 +47,9 @@ class Hero(Weapon, Spell):
         if not self.mana == self.max_mana:
             self.mana += mana_points
 
+    def add_mana_from_regeneration_rate(self):
+        self.mana += self.mana_regeneration_rate
+
     def equip(self, weapon):
         self.weapon = weapon
         return weapon.damage
@@ -55,7 +58,6 @@ class Hero(Weapon, Spell):
         if self.mana < spell.mana_cost:
             raise ValueError('Cannot cast that spell')
         else:
-            self.mana -= spell.mana_cost
             self.spell = spell
 
     def attack(self, by):
@@ -66,6 +68,7 @@ class Hero(Weapon, Spell):
                 return 0
         else:
             if self.spell != None:
+                self.mana -= hero.spell.mana_cost
                 return self.spell.damage
             else:
                 return 0
