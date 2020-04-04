@@ -7,6 +7,8 @@ from source_package.main_classes.hero import Hero
 from source_package.main_classes.potion import Potion
 from source_package.main_classes.spell import Spell
 from source_package.main_classes.weapon import Weapon
+from source_package.main_classes.fight import Fight
+
 
 def get_locations_of_objects(array, object):
     locations = []
@@ -86,6 +88,8 @@ class Dungeon:
                 self.remove_hero_from_map()
                 self.hero.location[0] -= 1
                 self.hero.add_mana_from_regeneration_rate()
+                self.check_for_treasure()
+                self.check_for_enemy()
                 self.put_hero_on_map()
 
         elif direction == "DOWN":
@@ -95,6 +99,8 @@ class Dungeon:
                 self.remove_hero_from_map()
                 self.hero.location[0] += 1
                 self.hero.add_mana_from_regeneration_rate()
+                self.check_for_treasure()
+                self.check_for_enemy()
                 self.put_hero_on_map()
 
         elif direction == "RIGHT":
@@ -104,6 +110,8 @@ class Dungeon:
                 self.remove_hero_from_map()
                 self.hero.location[1] += 1
                 self.hero.add_mana_from_regeneration_rate()
+                self.check_for_treasure()
+                self.check_for_enemy()
                 self.put_hero_on_map()
 
         elif direction == "LEFT":
@@ -113,6 +121,8 @@ class Dungeon:
                 self.remove_hero_from_map()
                 self.hero.location[1] -= 1
                 self.hero.add_mana_from_regeneration_rate()
+                self.check_for_treasure()
+                self.check_for_enemy()
                 self.put_hero_on_map()
 
     def remove_hero_from_map(self):
@@ -124,9 +134,6 @@ class Dungeon:
         hero_point_x = self.hero.location[0]
         hero_point_y = self.hero.location[1]
         self.map[hero_point_x][hero_point_y] = "H"
-
-    def check_for_obstacles(self):
-        return check_for_something(self.hero.location, self.obstacle_localtions)
 
     def check_for_treasure(self):
         if check_for_something(self.hero.location, self.treasures_locations) is True:
@@ -141,13 +148,39 @@ class Dungeon:
             else:
                 self.hero.equip(treasure)
 
-        # get radom treasure
-        # rendom treasure
-        # self.hero.take_mana
-
     def check_for_enemy(self):
-        return check_for_something(self.hero.location, self.enemy_locations)
-        # fight now
+        if check_for_something(self.hero.location, self.enemy_locations) is True:
+            enemy = random_enemy(read_from_file_with_enemies('enemies.txt'))
+            fight = Fight(self.hero, enemy)
+            fight.mortal_kombat()
+            self.hero = fight.rerun_hero()
 
-    # def hero_attack(self,by="spell"):
-    # self.hero.attack(by)
+            if not self.hero.is_alive():
+                print('GAME OVER')
+
+    def hero_attack(self, by):
+        if by == 'spell':
+            hero_x = self.hero.location[0]
+            hero_y = self.hero.location[1]
+            nearest_enemies = []
+            cast_range = self.hero.spell.cast_range
+
+            for enemy in self.enemy_locations:
+                if enemy[0] >= hero_x - cast_range and enemy[0] <= hero_x + cast_range:
+                    nearest_enemies.append(enemy)
+                elif enemy[1] >= hero_y - cast_range and enemy[1] <= hero_y + cast_range:
+                    nearest_enemies.append(enemy)
+
+            if len(nearest_enemies) > 0:
+                enemy = random_enemy(read_from_file_with_enemies('enemies.txt'))
+                # getting first coordinates in the list
+                enemy.location = nearest_enemies[0]
+                fight = Fight(self.hero, enemy)
+                fight.mortal_kombat()
+                self.hero = fight.return_hero()
+                if not self.hero.is_alive():
+                    print('GAME OVER')
+            else:
+                print(f'Nothing in casting range {self.hero.spell.cast_range}')
+        else:
+            print('There is no enemy to attack')
