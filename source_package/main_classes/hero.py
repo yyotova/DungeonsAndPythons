@@ -2,7 +2,8 @@ import sys
 sys.path.append('.')
 from source_package.main_classes.spell import Spell
 from source_package.main_classes.weapon import Weapon
- 
+
+
 class Hero(Weapon, Spell):
     def __init__(self, name, title, health, mana, mana_regeneration_rate):
         self.name = name
@@ -15,7 +16,7 @@ class Hero(Weapon, Spell):
         self.weapon = None
         self.spell = None
         self.location = [-1, -1]
-        
+
     def known_as(self):
         return f'{self.name} the {self.title}'
 
@@ -50,7 +51,8 @@ class Hero(Weapon, Spell):
             self.mana += mana_points
 
     def add_mana_from_regeneration_rate(self):
-        self.mana += self.mana_regeneration_rate
+        if not self.mana == self.max_mana:
+            self.mana += self.mana_regeneration_rate
 
     def equip(self, weapon):
         self.weapon = weapon
@@ -64,13 +66,13 @@ class Hero(Weapon, Spell):
 
     def attack(self, by):
         if by == 'weapon':
-            if self.weapon != None:
+            if self.weapon is not None:
                 return self.weapon.damage
             else:
                 return 0
         else:
-            if self.spell != None:
-                self.mana -= hero.spell.mana_cost
+            if self.spell is not None:
+                self.mana -= self.spell.mana_cost
                 return self.spell.damage
             else:
                 return 0
