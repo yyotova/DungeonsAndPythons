@@ -1,5 +1,7 @@
 import unittest
-from souce_package.file_manipulation.read_file import (read_from_file_with_first_level,
+import sys
+sys.path.append(".")
+from source_package.file_manipulation.read_file import (read_from_file_with_first_level,
 read_from_file_with_treasures,
 read_from_file_with_enemies)
 

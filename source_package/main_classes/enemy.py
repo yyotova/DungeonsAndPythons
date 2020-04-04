@@ -3,15 +3,16 @@ sys.path.append('.')
 from source_package.main_classes.spell import Spell
 from source_package.main_classes.weapon import Weapon
 
-class Enemy(Weapon,Spell):
+
+class Enemy(Weapon, Spell):
     def __init__(self, health, mana, damage):
         self.health = health
         self.mana = mana
         self.damage = damage
         self.weapon = None
         self.spell = None
-        self.location=[]
-        
+        self.location = []
+
     def __eq__(self, other):
         return self.__dict__ == other.__dict__
 
@@ -32,6 +33,17 @@ class Enemy(Weapon,Spell):
         if self.health < 0:
             self.health = 0
 
+    def learn(self, spell):
+        if self.mana < spell.mana_cost:
+            raise ValueError('Cannot cast that spell')
+        else:
+            self.spell = spell
+
+    def equip(self, weapon):
+        if self.damage < weapon.damage:
+            self.weapon = weapon
+            return weapon.damage
+
     def take_healing(self, healing_points):
         if not self.is_alive():
             return False
@@ -47,13 +59,13 @@ class Enemy(Weapon,Spell):
 
     def attack(self, by):
         if by == 'weapon':
-            if self.weapon != None:
+            if self.weapon is not None:
                 return self.weapon.damage
             else:
                 return self.damage
         else:
-            if self.spell != None:
-                self.mana -= self.spell.mana
+            if self.spell is not None:
+                self.mana -= self.spell.mana_cost
                 return self.spell.damage
             else:
                 return self.damage
