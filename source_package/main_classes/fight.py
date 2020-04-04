@@ -37,13 +37,13 @@ class Fight(Hero, Enemy):
             else:
                 self.enemy.take_damage(self.hero.attack(by="weapon"))
                 if self.hero.weapon is None:
-                    print("Hero hits enemy for 0 enemy health={1}".format(self.enemy.health))
+                    print("Hero hits enemy for 0 enemy health={0}".format(self.enemy.health))
                 else:
                     print("Hero hits enemy with {0} for {1} enemy health={2}".format(self.hero.weapon.name, self.hero.weapon.damage, self.enemy.health))
         else:
             self.enemy.take_damage(self.hero.attack(by="weapon"))
             if self.hero.weapon is None:
-                print("Hero hits enemy for 0 enemy health={1}".format(self.enemy.health))
+                print("Hero hits enemy for 0 enemy health={0}".format(self.enemy.health))
             else:
                 print("Hero hits enemy with {0} for {1} enemy health={2}".format(self.hero.weapon.name, self.hero.weapon.damage, self.enemy.health))
 
@@ -85,6 +85,12 @@ class Fight(Hero, Enemy):
             return self.hero.spell.cast_range >= (sum(self.enemy.location) / 2)
 >>>>>>> fix mortal kombat
 
+    def hero_in_casting_range(self):
+        if self.hero.location.count(0) == 1:
+            return self.enemy.spell.cast_range >= (sum(self.hero.location) / 1)
+        else:
+            return self.enemy.spell.cast_range >= (sum(self.hero.location) / 2)
+
     def enemy_move_to_hero(self):
         if self.hero.location != self.enemy.location:
             # move up or down first
@@ -117,15 +123,37 @@ class Fight(Hero, Enemy):
                         print("Enemy moves one step left to get to hero")
 >>>>>>> fix mortal kombat
 
+    def hero_move_to_enemy(self):
+        if self.hero.location != self.enemy.location:
+            # move up or down first
+            if self.hero.location[0] != self.enemy.location[0]:
+                if self.enemy.location[0] > self.hero.location[0]:
+                    self.hero.location[0] += 1
+                    print("Hero moves one step down to get to enemy")
+                else:
+                    self.hero.location[0] -= 1
+                    print("Hero moves one step up to get to enemy")
+            # move left or right
+            else:
+                if self.enemy.location[1] != self.hero.location[1]:
+                    if self.enemy.location[1] > self.hero.location[1]:
+                        self.hero.location[1] += 1
+                        print("Hero moves one step right to get to enemy")
+                    else:
+                        self.hero.location[1] -= 1
+                        print("Hero moves one step left to get to enemy")
+
+
     def enemy_over_hero(self):
         return self.hero.location == self.enemy.location
 
     def mortal_kombat(self):
         game_turn = 1
-        while self.hero.health > 0 and self.enemy.health > 0:
+        while self.hero.health > 1 and self.enemy.health > 1:
             if self.hero.spell:
                 if self.hero_in_line_of_object() and self.enemy_in_casting_range():
                     if game_turn % 2 == 0:
+<<<<<<< HEAD
                         if self.enemy_over_hero():
                             self.enemy_hit_hero()
 <<<<<<< HEAD
@@ -163,23 +191,70 @@ class Fight(Hero, Enemy):
                         else:
                             self.enemy_move_to_hero()
                         game_turn += 1
+=======
+                        if self.enemy.is_alive() and self.hero.is_alive():
+                            if self.enemy.spell and self.enemy.mana >= self.enemy.spell.mana_cost:
+                                self.enemy_hit_hero()
+                            else:
+                                if self.enemy_over_hero():
+                                    self.enemy_hit_hero()
+                                else:
+                                    self.enemy_move_to_hero()
+                            game_turn += 1
+                    # print(game_turn)
+>>>>>>> fixed fight add spell of enemy and fixed turn of dead object
                     if game_turn % 2 != 0:
-                        self.hero_hit_enemy()
-                        game_turn += 1
+                        if self.enemy.is_alive() and self.hero.is_alive():
+                            if self.hero.spell and self.hero.mana >= self.hero.spell.mana_cost:
+                                self.hero_hit_enemy()
+                            else:
+                                if self.enemy_over_hero():
+                                    self.hero_hit_enemy()
+                            game_turn += 1
+                    # print(game_turn)
                 else:
                     print("Nothing in casting range {0}".format(self.hero.spell.cast_range))
                     return
-            if self.hero.spell is None and self.enemy_over_hero() is False:
+            if self.hero.spell is None and self.enemy.spell:
+                if self.hero_in_line_of_object() and self.hero_in_casting_range():
+                    if game_turn % 2 == 0:
+                        if self.enemy.is_alive() and self.hero.is_alive():
+                            if self.enemy.spell:
+                                self.enemy_hit_hero()
+                            else:
+                                if self.enemy_over_hero():
+                                    self.enemy_hit_hero()
+                                else:
+                                    self.enemy_move_to_hero()
+                            game_turn += 1
+                    if game_turn % 2 != 0:
+                        if self.enemy.is_alive() and self.hero.is_alive():   
+                            if self.enemy_over_hero():
+                                self.hero_hit_enemy()
+                            else:
+                                self.hero_move_to_enemy()
+                            game_turn += 1
+
+            if self.hero.spell is None and self.enemy_over_hero() is False and self.enemy.spell is None:
                 self.enemy_move_to_hero()
                 game_turn += 1
 
             if self.enemy_over_hero():
                 if game_turn % 2 == 0:
-                    self.enemy_hit_hero()
+                    if self.enemy.is_alive() and self.hero.is_alive():
+                        self.enemy_hit_hero()
                     game_turn += 1
                 if game_turn % 2 != 0:
-                    self.hero_hit_enemy()
+                    if self.enemy.is_alive() and self.hero.is_alive():
+                        self.hero_hit_enemy()
                     game_turn += 1
 
+<<<<<<< HEAD
         return self.hero
 >>>>>>> fix mortal kombat
+=======
+        if self.hero.health <= 0:
+            print("Hero is dead")
+        else:
+            print("Enemy is dead")
+>>>>>>> fixed fight add spell of enemy and fixed turn of dead object

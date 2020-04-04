@@ -32,6 +32,17 @@ class Enemy(Weapon,Spell):
         if self.health < 0:
             self.health = 0
 
+    def learn(self, spell):
+        if self.mana < spell.mana_cost:
+            raise ValueError('Cannot cast that spell')
+        else:
+            self.spell = spell
+
+    def equip(self, weapon):
+        if self.damage < weapon.damage:
+            self.weapon = weapon
+            return weapon.damage
+
     def take_healing(self, healing_points):
         if not self.is_alive():
             return False
@@ -53,7 +64,7 @@ class Enemy(Weapon,Spell):
                 return self.damage
         else:
             if self.spell is not None:
-                self.mana -= self.spell.mana
+                self.mana -= self.spell.mana_cost
                 return self.spell.damage
             else:
                 return self.damage
