@@ -1,138 +1,153 @@
 import sys
 sys.path.append('.')
-from source_package.file_manipulation.read_file import read_from_file_with_first_level
+
+from utls import *
+from source_package.file_manipulation.read_file import *
 from source_package.main_classes.hero import Hero
+from source_package.main_classes.potion import Potion
+from source_package.main_classes.spell import Spell
+from source_package.main_classes.weapon import Weapon
 
-def get_list_object(array,object):
-	list_helper=[]	
-	for i in range(0,len(array)):
-		for j in range(0,len(array)):
-			if array[i][j]==object:
-				list_helper.append([i,j])
+def get_locations_of_objects(array, object):
+    locations = []
 
-	return list_helper
+    for i in range(0, len(array)):
+        for j in range(0, len(array[i])):
+            if array[i][j] == object:
+                locations.append([i, j])
 
-def check_for_something(points,array):
-	for obstacle in array:
-		if points[0]==obstacle[0] and points[1]==obstacle[1]:
-			return True
-	return False
+    return locations
+
+
+def check_for_something(points, array):
+    for obstacle in array:
+        if points[0] == obstacle[0] and points[1] == obstacle[1]:
+            return True
+    return False
 
 
 class Dungeon:
-	
-	# def __init__(self,file_name):
-	def __init__(self,map,treasures,enemy_list):
-		# self.level_array,self.treasures_list=read_from_file(file_name)
-		self.level_array=map
-		self.treasures_list=treasures
-		self.enemy_list=enemy_list
-		self.spawn_location_list=[]
-		self.obstacle_localtion=[]
-		self.enemy_location=[]
-		self.treasures_location=[]
+    def __init__(self, file_name):
+        self.file_name = file_name
+        self.map = read_from_file_with_first_level(file_name)
+        self.hero = None
+        self.fill_location_list()
 
-		
-	def get_obstacle_location(self):
-		self.obstacle_localtion=get_list_object(self.level_array,"#")
+    def set_obstacle_location(self):
+        self.obstacle_localtions = get_locations_of_objects(self.map, "#")
 
-	def get_treasure_location(self):
-		self.enemy_location=get_list_object(self.level_array,"T")
+    def set_treasure_location(self):
+        self.treasure_locations = get_locations_of_objects(self.map, "T")
 
-	def get_enemy_location(self):
-		self.enemy_location=get_list_object(self.level_array,"E")
+    def set_enemy_location(self):
+        self.enemy_locations = get_locations_of_objects(self.map, "E")
 
-	def get_spawn_location(self):
-		self.spawn_location_list=get_list_object(self.level_array,"S")
+    def set_spawn_location(self):
+        self.spawn_locations = get_locations_of_objects(self.map, "S")
 
-	def fill_location_list(self):
-		self.get_obstacle_location()
-		self.get_enemy_location()
-		self.get_spawn_location()
-		self.get_treasure_location()
+    def fill_location_list(self):
+        self.set_obstacle_location()
+        self.set_enemy_location()
+        self.set_spawn_location()
+        self.set_treasure_location()
 
-	def spawn(self,hero):
-		self.get_spawn_location()
-		if len(self.spawn_location_list)==0:
-			return False
-		else:
-			self.hero=hero
-			self.hero.location=self.spawn_location_list[0]
-			self.put_hero_on_map()
+    def spawn(self, hero):
+        self.set_spawn_location()
+        if len(self.spawn_locations) == 0:
+            return False
+        else:
+            if self.hero is not None:
+                self.remove_hero_from_map()
+                self.hero = hero
+                self.hero.location = self.spawn_locations[0]
+                self.spawn_locations.remove(self.spawn_locations[0])
+                self.put_hero_on_map()
+            else:
+                self.hero = hero
+                self.hero.location = self.spawn_locations[0]
+                self.spawn_locations.remove(self.spawn_locations[0])
+                self.put_hero_on_map()
 
-	def print_map(self):
-		for line in self.level_array:
-			print(line)
+    def print_map(self):
+        res = ''
+        for line in self.map:
+            for char in line:
+                res += ''.join(char)
+            res += ''.join('\n')
+        print(res)
 
-	def move_hero(self,direction):
-		# make them capital to ignore small or capital letter
-		direction=direction.upper()
-		# hero.location[x,y]
-		# not using else because it looks better
-		self.remove_hero_from_map() #remove hero from map
-		
-		if direction=="UP":
-			self.hero.location[0]-=1
-			if self.check_for_obstacles():
-				self.hero.location[0]+=1
-				# stops hero from going into walls
+    def move_hero(self, direction):
+        direction = direction.upper()
 
-		elif direction=="DOWN":
-			self.hero.location[0]+=1
-			if self.check_for_obstacles():
-				self.hero.location[0]-=1
-				
-		elif direction=="RIGHT":
-			self.hero.location[1]+=1 
-			if self.check_for_obstacles():
-				self.hero.location[1]-=1
+        if direction == "UP":
+            new_x = self.hero.location[0] - 1
+            new_y = self.hero.location[1]
+            if not check_for_something([new_x, new_y], self.obstacle_localtions) and new_x >= 0:
+                self.remove_hero_from_map()
+                self.hero.location[0] -= 1
+                self.hero.add_mana_from_regeneration_rate()
+                self.put_hero_on_map()
 
-		elif direction=="LEFT":
-			self.hero.location[1]-=1
-			if self.check_for_obstacles():
-				self.hero.location[1]+=1
+        elif direction == "DOWN":
+            new_x = self.hero.location[0] + 1
+            new_y = self.hero.location[1]
+            if not check_for_something([new_x, new_y], self.obstacle_localtions) and new_x < len(self.map):
+                self.remove_hero_from_map()
+                self.hero.location[0] += 1
+                self.hero.add_mana_from_regeneration_rate()
+                self.put_hero_on_map()
 
-		# move here put on map
-		self.put_hero_on_map()
-		# check for leaving level
-		self.moving_out_of_bounds()
+        elif direction == "RIGHT":
+            new_x = self.hero.location[0]
+            new_y = self.hero.location[1] + 1
+            if not check_for_something([new_x, new_y], self.obstacle_localtions) and new_y < len(self.map[0]):
+                self.remove_hero_from_map()
+                self.hero.location[1] += 1
+                self.hero.add_mana_from_regeneration_rate()
+                self.put_hero_on_map()
 
-	def remove_hero_from_map(self):
-		hero_point_x=self.hero.location[0]
-		hero_point_y=self.hero.location[1]
-		self.level_array[hero_point_x][hero_point_y]="."
-		
+        elif direction == "LEFT":
+            new_x = self.hero.location[0]
+            new_y = self.hero.location[1] - 1
+            if not check_for_something([new_x, new_y], self.obstacle_localtions) and new_y >= 0:
+                self.remove_hero_from_map()
+                self.hero.location[1] -= 1
+                self.hero.add_mana_from_regeneration_rate()
+                self.put_hero_on_map()
 
-	def put_hero_on_map(self):
-		hero_point_x=self.hero.location[0]
-		hero_point_y=self.hero.location[1]
-		self.level_array[hero_point_x][hero_point_y]="H"
+    def remove_hero_from_map(self):
+        hero_point_x = self.hero.location[0]
+        hero_point_y = self.hero.location[1]
+        self.map[hero_point_x][hero_point_y] = "."
 
-	def moving_out_of_bounds(self):
-		hero_point_x=self.hero.location[0]
-		hero_point_y=self.hero.location[1]
-		if hero_point_x<0:
-			self.move_hero("DOWN")
-		if hero_point_x>len(self.level_array[hero_point_y]):
-			self.move_hero("UP")
-		if hero_point_y<0:
-			self.move_hero("RIGHT")
-		if hero_point_y>len(self.level_array):
-			self.move_hero("LEFT")
+    def put_hero_on_map(self):
+        hero_point_x = self.hero.location[0]
+        hero_point_y = self.hero.location[1]
+        self.map[hero_point_x][hero_point_y] = "H"
 
-	def check_for_obstacles(self):
-		return check_for_something(self.hero.location,self.obstacle_localtion)
+    def check_for_obstacles(self):
+        return check_for_something(self.hero.location, self.obstacle_localtions)
 
-	def check_for_treasure(self):
-		return check_for_something(self.hero.location,self.treasures_location)
-		# get radom treasure
-		# rendom treasure
-		# self.hero.take_mana
-	
-	def check_for_enemy(self):
-		return check_for_something(self.hero.location,self.enemy_location)
-		# fight now
+    def check_for_treasure(self):
+        if check_for_something(self.hero.location, self.treasures_locations) is True:
+            treasure = random_treasure(read_from_file_with_treasures('treasures.txt'))
+            if treasure.__class__.__name__ == 'Potion':
+                if treasure.potion == 'health':
+                    self.hero.take_healing(treasure.points)
+                else:
+                    self.hero.take_mana(treasure.points)
+            elif treasure.__class__.__name__ == 'Spell':
+                self.hero.learn(treasure)
+            else:
+                self.hero.equip(treasure)
 
-	# def hero_attack(self,by="spell"):
-	# 	self.hero.attack(by)
-	# 
+        # get radom treasure
+        # rendom treasure
+        # self.hero.take_mana
+
+    def check_for_enemy(self):
+        return check_for_something(self.hero.location, self.enemy_locations)
+        # fight now
+
+    # def hero_attack(self,by="spell"):
+    # self.hero.attack(by)
