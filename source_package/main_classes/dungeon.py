@@ -172,7 +172,7 @@ class Dungeon:
                     nearest_enemies.append(enemy)
 
             if len(nearest_enemies) > 0:
-                enemy = random_enemy(read_from_file_with_enemies('enemies.txt'))
+                enemy = random_enemy(convert_enemies_as_instance(read_from_file_with_enemies('enemies.txt')))
                 # getting first coordinates in the list
                 enemy.location = nearest_enemies[0]
                 fight = Fight(self.hero, enemy)
