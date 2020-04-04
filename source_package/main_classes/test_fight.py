@@ -22,6 +22,7 @@ class Test_Fight(unittest.TestCase):
         hero.location = [0, 0]
         enemy.location = [0, 2]
         f = Fight(hero, enemy)
+        print("\n test spell both \n")
         hero = f.mortal_kombat()
         self.assertEqual(f.return_hero().health, 0)
 
@@ -39,21 +40,9 @@ class Test_Fight(unittest.TestCase):
         hero.location = [0, 0]
         enemy.location = [0, 2]
         f = Fight(hero, enemy)
+        print("\ntest hero no spell enime has \n")
         f.mortal_kombat()
         self.assertEqual(f.return_hero().health, 0)
-
-    def test_fight_out_of_range(self):
-        hero = Hero(name="Bron", title="Dragonslayer", health=100, mana=100, mana_regeneration_rate=2)
-        w = Weapon(name="The Axe of Destiny", damage=20)
-        hero.equip(w)
-        s = Spell(name="Fireball", damage=30, mana_cost=50, cast_range=2)
-        hero.learn(s)
-        enemy = Enemy(100, 100, 20)
-        hero.location = [0, 0]
-        enemy.location = [0, 4]
-        f = Fight(hero, enemy)
-        f.mortal_kombat()
-        self.assertEqual(f.return_hero().health, 100)
 
     def test_fight_hero_naked(self):
         hero = Hero(name="Bron", title="Dragonslayer", health=100, mana=100, mana_regeneration_rate=2)
@@ -61,6 +50,7 @@ class Test_Fight(unittest.TestCase):
         hero.location = [0, 0]
         enemy.location = [0, 2]
         f = Fight(hero, enemy)
+        print("\ntest hero nothing\n")
         f.mortal_kombat()
         self.assertEqual(f.return_hero().health, 0)
 
@@ -72,6 +62,7 @@ class Test_Fight(unittest.TestCase):
         hero.location = [0, 0]
         enemy.location = [2, 1]
         f = Fight(hero, enemy)
+        print("\ntest only weapon\n")
         f.mortal_kombat()
         self.assertEqual(f.return_hero().health, 20)
 
@@ -85,9 +76,37 @@ class Test_Fight(unittest.TestCase):
         s = Spell(name="Fireball", damage=30, mana_cost=50, cast_range=2)
         hero.learn(s)
         f = Fight(hero, enemy)
+        print("\ntest hero weapon spell\n")
         f.mortal_kombat()
         self.assertEqual(f.return_hero().health, 80)
 
+    def test_fight_direct(self):
+        hero = Hero(name="Bron", title="Dragonslayer", health=100, mana=100, mana_regeneration_rate=2)
+        w = Weapon(name="The Axe of Destiny", damage=20)
+        hero.equip(w)
+        enemy = Enemy(100, 100, 20)
+        hero.location = [0, 0]
+        enemy.location = [0, 0]
+        s = Spell(name="Fireball", damage=30, mana_cost=50, cast_range=2)
+        hero.learn(s)
+        f = Fight(hero, enemy)
+        print("\ntest hero fight one over the other\n")
+        f.mortal_kombat()
+        self.assertEqual(f.return_hero().health, 40)
+
+    def test_fight_direct_spell_weak(self):
+        hero = Hero(name="Bron", title="Dragonslayer", health=100, mana=100, mana_regeneration_rate=2)
+        w = Weapon(name="The Axe of Destiny", damage=20)
+        hero.equip(w)
+        enemy = Enemy(100, 100, 20)
+        hero.location = [0, 0]
+        enemy.location = [0, 0]
+        s = Spell(name="Fireball", damage=10, mana_cost=50, cast_range=2)
+        hero.learn(s)
+        f = Fight(hero, enemy)
+        print("\ntest hero fight one over the other\n")
+        f.mortal_kombat()
+        self.assertEqual(f.return_hero().health, 20)
 
 if __name__ == '__main__':
     unittest.main()
