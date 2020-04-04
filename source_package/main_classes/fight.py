@@ -146,29 +146,11 @@ class Fight(Hero, Enemy):
                 if self.hero_in_line_of_object() and self.enemy_in_casting_range():
 
                     if game_turn % 2 == 0:
-                        if self.enemy_over_hero():
-                            self.enemy_hit_hero()
-                        else:
-                            self.enemy_move_to_hero()
-                        game_turn += 1
-                        if self.enemy.is_alive() and self.hero.is_alive():
-                            if self.enemy.spell and self.enemy.mana >= self.enemy.spell.mana_cost:
-                                self.enemy_hit_hero()
-                            else:
-                                if self.enemy_over_hero():
-                                    self.enemy_hit_hero()
-                                else:
-                                    self.enemy_move_to_hero()
-                            game_turn += 1
-                    # print(game_turn)
                         game_turn = self.enemy_game_turn(game_turn)
 
                     if game_turn % 2 != 0:
                         game_turn = self.hero_game_turn(game_turn)
 
-                else:
-                    print("Nothing in casting range {0}".format(self.hero.spell.cast_range))
-                    return
             # do if enemy has spell and hero doesnt have a spell
             if self.hero.spell is None and self.enemy.spell:
                 if self.hero_in_line_of_object() and self.hero_in_casting_range():

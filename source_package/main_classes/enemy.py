@@ -3,15 +3,16 @@ sys.path.append('.')
 from source_package.main_classes.spell import Spell
 from source_package.main_classes.weapon import Weapon
 
-class Enemy(Weapon,Spell):
+
+class Enemy(Weapon, Spell):
     def __init__(self, health, mana, damage):
         self.health = health
         self.mana = mana
         self.damage = damage
         self.weapon = None
         self.spell = None
-        self.location=[]
-        
+        self.location = []
+
     def __eq__(self, other):
         return self.__dict__ == other.__dict__
 

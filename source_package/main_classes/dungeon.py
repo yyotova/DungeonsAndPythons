@@ -136,8 +136,8 @@ class Dungeon:
         self.map[hero_point_x][hero_point_y] = "H"
 
     def check_for_treasure(self):
-        if check_for_something(self.hero.location, self.treasures_locations) is True:
-            treasure = random_treasure(read_from_file_with_treasures('treasures.txt'))
+        if check_for_something(self.hero.location, self.treasure_locations) is True:
+            treasure = random_treasure(convert_treasures_as_instance(read_from_file_with_treasures('treasures.txt')))
             if treasure.__class__.__name__ == 'Potion':
                 if treasure.potion == 'health':
                     self.hero.take_healing(treasure.points)
@@ -150,7 +150,7 @@ class Dungeon:
 
     def check_for_enemy(self):
         if check_for_something(self.hero.location, self.enemy_locations) is True:
-            enemy = random_enemy(read_from_file_with_enemies('enemies.txt'))
+            enemy = random_enemy(convert_enemies_as_instance(read_from_file_with_enemies('enemies.txt')))
             fight = Fight(self.hero, enemy)
             fight.mortal_kombat()
             self.hero = fight.rerun_hero()

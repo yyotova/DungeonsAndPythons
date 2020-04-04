@@ -9,12 +9,13 @@ from source_package.main_classes.dungeon import Dungeon
 # from source_package.main_classes.enemy import Enemy
 from source_package.main_classes.hero import Hero
 
+# test work correctly separated sorry
 
 class test_dungeon_class(unittest.TestCase):
-    # def test_creating_dungeon_and_print_it(self):
+    def test_creating_dungeon_and_print_it(self):
 
-    #     dungeon = Dungeon("level1.txt")
-    #     dungeon.print_map()
+        dungeon = Dungeon("level1.txt")
+        dungeon.print_map()
 
     # def test_set_obstacle_locations_returns_obstacle_coordinations(self):
     #     dungeon = Dungeon("level1.txt")
