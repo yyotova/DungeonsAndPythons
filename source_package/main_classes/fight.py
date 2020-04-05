@@ -12,7 +12,7 @@ class Fight(Hero, Enemy):
 
     def hero_hit_enemy(self):
         if self.hero.spell:
-            if self.hero.mana >= self.hero.spell.mana_cost and self.hero.spell.damage >= self.hero.weapon.damage:
+            if self.hero.mana >= self.hero.spell.mana_cost and self.hero.spell.damage >= self.hero.attack(by="weapon"):
                 self.enemy.take_damage(self.hero.attack(by="spell"))
                 print("Hero hits enemy with {0} for {1} enemy health={2}".format(self.hero.spell.name, self.hero.spell.damage, self.enemy.health))
             else:

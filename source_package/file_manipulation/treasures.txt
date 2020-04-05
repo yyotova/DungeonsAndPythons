@@ -1,6 +1,18 @@
 potion {"health": 20}
 potion {"mana": 30}
-spell {"name": "Pfu","damage": 20,"mana_cost": 20,"cast_range": 200}
+spell {"name": "Fiendfyre Curse","damage": 20,"mana_cost": 20,"cast_range": 200}
 spell {"name": "Abrakadabra","damage": 28,"mana_cost": 29,"cast_range": 200}
 weapon {"name": "Axe","damage": 30}
 weapon {"name": "Axe2","damage": 10.5}
+potion {"health": 300}
+potion {"mana": 300}
+spell {"name": "WOW","damage": 40,"mana_cost": 30,"cast_range": 100}
+spell {"name": "Petrificus Totalus","damage": 28,"mana_cost": 45,"cast_range": 100}
+weapon {"name": "Gun","damage": 50}
+weapon {"name": "Sword","damage": 23.20}
+potion {"health": 45}
+potion {"mana": 70}
+spell {"name": "Rictusempra","damage": 40,"mana_cost": 31,"cast_range": 300}
+spell {"name": "Furnunculus","damage": 35,"mana_cost": 39,"cast_range": 300}
+weapon {"name": "Bomb","damage": 100}
+weapon {"name": "Bazooka","damage": 60}
