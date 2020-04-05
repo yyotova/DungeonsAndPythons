@@ -36,8 +36,8 @@ h.learn(s)
 pygame.init()
 white_hero = (255, 255, 255)
 black_enemy = (0, 0, 0)
-red_treasure = (255, 0, 0)
-gray_wall = (138, 138, 92)
+red_treasure = (255, 92, 51)
+gray_wall = (128, 64, 0)
 dis = pygame.display.set_mode((1000, 500))
 pygame.display.set_caption('Dungeons And Pythons')
 
@@ -76,7 +76,7 @@ while len(map.spawn_locations) > 0:
 
         hero_x = map.hero.location[0]
         hero_y = map.hero.location[1]
-        dis.fill((0, 102, 0))
+        dis.fill((120, 120, 105))
         if map.hero.location == map.gateway_location[0]:
             game_over = True
         if not map.hero.is_alive():
@@ -88,9 +88,9 @@ while len(map.spawn_locations) > 0:
             pygame.draw.rect(dis, red_treasure, [treasure[1], treasure[0], 100, 100])
 
         for enemy in map.enemy_locations:
-            pygame.draw.rect(dis, black_enemy, [enemy[1], enemy[0], 100, 100])
-        pygame.draw.rect(dis, (139, 69, 19), [map.gateway_location[0][1], map.gateway_location[0][0], 100, 100])
-        pygame.draw.rect(dis, white_hero, [hero_y, hero_x, 100, 100])
+            pygame.draw.ellipse(dis, black_enemy, [enemy[1], enemy[0], 100, 100])
+        pygame.draw.rect(dis, (255, 179, 102), [map.gateway_location[0][1], map.gateway_location[0][0], 100, 100])
+        pygame.draw.ellipse(dis, white_hero, [hero_y, hero_x, 100, 100])
         pygame.display.update()
 
 message_display("GOOD GAME")
