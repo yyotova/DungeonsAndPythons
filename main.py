@@ -27,6 +27,7 @@ def message_display(text):
 
     time.sleep(5)
     pygame.quit()
+    quit()
 
 
 map = Dungeon("level1.txt")
@@ -81,8 +82,10 @@ while len(map.spawn_locations) > 0:
                     map.move_hero("DOWN")
 
                 elif event.key == pygame.K_SPACE:
-                    map.hero_attack(by="spell")
-
+                    if map.hero.spell:
+                        map.hero_attack(by="spell")
+                    else:
+                        print("No spell to cast")
         hero_x = map.hero.location[0]
         hero_y = map.hero.location[1]
 
@@ -108,4 +111,3 @@ while len(map.spawn_locations) > 0:
         pygame.display.update()
 
 message_display("GOOD GAME")
-pygame.quit()
