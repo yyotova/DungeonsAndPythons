@@ -1,3 +1,3 @@
 # DungeonsAndPythons
-Task from course ''Python101''
+Task from course ''Python101'' \n
 pip3 install pygame
