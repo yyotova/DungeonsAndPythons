@@ -35,7 +35,11 @@ h.learn(s)
 # print(map.map[0][1])
 pygame.init()
 white_hero = (255, 255, 255)
-black_enemy = (0, 0, 0)
+
+enemy_img = pygame.image.load('enemy.png')
+hero_img = pygame.image.load("hero.jpg")
+treasure_img=pygame.image.load("treasure.png")
+# black_enemy = (0, 0, 0)
 red_treasure = (255, 0, 0)
 gray_wall = (138, 138, 92)
 dis = pygame.display.set_mode((1000, 500))
@@ -85,12 +89,13 @@ while len(map.spawn_locations) > 0:
             pygame.draw.rect(dis, gray_wall, [wall[1], wall[0], 100, 100])
 
         for treasure in map.treasure_locations:
-            pygame.draw.rect(dis, red_treasure, [treasure[1], treasure[0], 100, 100])
-
+            # pygame.draw.rect(dis, red_treasure, [treasure[1], treasure[0], 100, 100])
+            dis.blit(treasure_img,(treasure[1], treasure[0]))
         for enemy in map.enemy_locations:
-            pygame.draw.rect(dis, black_enemy, [enemy[1], enemy[0], 100, 100])
+            # pygame.draw.rect(dis, black_enemy, [enemy[1], enemy[0], 100, 100])
+            dis.blit(enemy_img,(enemy[1],enemy[0]))
         pygame.draw.rect(dis, (139, 69, 19), [map.gateway_location[0][1], map.gateway_location[0][0], 100, 100])
-        pygame.draw.rect(dis, white_hero, [hero_y, hero_x, 100, 100])
+        dis.blit(hero_img, (hero_y, hero_x))
         pygame.display.update()
 
 message_display("GOOD GAME")
