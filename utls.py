@@ -36,12 +36,12 @@ def convert_enemies_as_instance(dict_with_enemies):
 
 
 def random_treasure(treasures):
-    index = randint(0, len(treasures))
-
+    index = randint(0, len(treasures) - 1)
+    
     return treasures[index]
 
 
 def random_enemy(enemies):
-    index = randint(0, len(enemies))
+    index = randint(0, len(enemies) - 1)
 
     return enemies[index]

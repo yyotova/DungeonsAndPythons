@@ -60,7 +60,8 @@ class Hero(Weapon, Spell):
 
     def learn(self, spell):
         if self.mana < spell.mana_cost:
-            raise ValueError('Cannot cast that spell')
+            print('Cannot cast that spell')
+            # raise ValueError('Cannot cast that spell')
         else:
             self.spell = spell
 

@@ -1,4 +1,4 @@
 {"health": 100, "damage": 10, "mana": 150}
-{"health": 200, "damage": 20, "mana": 100}
-{"health": 150, "damage": 50, "mana": 90}
-{"health": 180, "damage": 5, "mana": 50}
+{"health": 80, "damage": 20, "mana": 100}
+{"health": 10, "damage": 50, "mana": 90}
+{"health": 10, "damage": 500, "mana": 50}

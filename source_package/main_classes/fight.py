@@ -72,19 +72,19 @@ class Fight(Hero, Enemy):
             # move up or down first
             if self.hero.location[0] != self.enemy.location[0]:
                 if self.hero.location[0] > self.enemy.location[0]:
-                    self.enemy.location[0] += 1
+                    self.enemy.location[0] += 100
                     print("Enemy moves one step down to get to hero")
                 else:
-                    self.enemy.location[0] -= 1
+                    self.enemy.location[0] -= 100
                     print("Enemy moves one step up to get to hero")
             # move left or right
             else:
                 if self.hero.location[1] != self.enemy.location[1]:
                     if self.hero.location[1] > self.enemy.location[1]:
-                        self.enemy.location[1] += 1
+                        self.enemy.location[1] += 100
                         print("Enemy moves one step right to get to hero")
                     else:
-                        self.enemy.location[1] -= 1
+                        self.enemy.location[1] -= 100
                         print("Enemy moves one step left to get to hero")
 
     def hero_move_to_enemy(self):
@@ -92,19 +92,19 @@ class Fight(Hero, Enemy):
             # move up or down first
             if self.hero.location[0] != self.enemy.location[0]:
                 if self.enemy.location[0] > self.hero.location[0]:
-                    self.hero.location[0] += 1
+                    self.hero.location[0] += 100
                     print("Hero moves one step down to get to enemy")
                 else:
-                    self.hero.location[0] -= 1
+                    self.hero.location[0] -= 100
                     print("Hero moves one step up to get to enemy")
             # move left or right
             else:
                 if self.enemy.location[1] != self.hero.location[1]:
                     if self.enemy.location[1] > self.hero.location[1]:
-                        self.hero.location[1] += 1
+                        self.hero.location[1] += 100
                         print("Hero moves one step right to get to enemy")
                     else:
-                        self.hero.location[1] -= 1
+                        self.hero.location[1] -= 100
                         print("Hero moves one step left to get to enemy")
 
     def return_hero(self):
@@ -143,23 +143,23 @@ class Fight(Hero, Enemy):
         while self.hero.health > 1 and self.enemy.health > 1:
             # check for hero spell
             if self.hero.spell:
-                if self.hero_in_line_of_object() and self.enemy_in_casting_range():
+                # if self.hero_in_line_of_object() and self.enemy_in_casting_range():
 
-                    if game_turn % 2 == 0:
-                        game_turn = self.enemy_game_turn(game_turn)
+                if game_turn % 2 == 0:
+                    game_turn = self.enemy_game_turn(game_turn)
 
-                    if game_turn % 2 != 0:
-                        game_turn = self.hero_game_turn(game_turn)
+                if game_turn % 2 != 0:
+                    game_turn = self.hero_game_turn(game_turn)
 
             # do if enemy has spell and hero doesnt have a spell
             if self.hero.spell is None and self.enemy.spell:
-                if self.hero_in_line_of_object() and self.hero_in_casting_range():
+                # if self.hero_in_line_of_object() and self.hero_in_casting_range():
 
-                    if game_turn % 2 == 0:
-                        game_turn = self.enemy_game_turn(game_turn)
+                if game_turn % 2 == 0:
+                    game_turn = self.enemy_game_turn(game_turn)
 
-                    if game_turn % 2 != 0:
-                        game_turn = self.hero_game_turn(game_turn)
+                if game_turn % 2 != 0:
+                    game_turn = self.hero_game_turn(game_turn)
 
             if self.hero.spell is None and self.enemy_over_hero() is False and self.enemy.spell is None:
                 self.enemy_move_to_hero()
