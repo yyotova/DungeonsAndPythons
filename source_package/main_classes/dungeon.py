@@ -127,9 +127,11 @@ class Dungeon:
                 else:
                     self.hero.take_mana(treasure.points)
             elif treasure.__class__.__name__ == 'Spell':
-                self.hero.learn(treasure)
+                if treasure.damage > self.hero.attack(by="spell"):
+                    self.hero.learn(treasure)
             else:
-                self.hero.equip(treasure)
+                if treasure.damage > self.hero.attack(by="weapon"):
+                    self.hero.equip(treasure)
             print(treasure)
 
     def check_for_enemy(self):
