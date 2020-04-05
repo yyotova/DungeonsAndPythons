@@ -1,6 +1,6 @@
 potion {"health": 20}
 potion {"mana": 30}
-spell {"name": "Pfu","damage": 20,"mana_cost": 20,"cast_range": 2}
-spell {"name": "Abrakadabra","damage": 28,"mana_cost": 29,"cast_range": 2}
+spell {"name": "Pfu","damage": 20,"mana_cost": 20,"cast_range": 200}
+spell {"name": "Abrakadabra","damage": 28,"mana_cost": 29,"cast_range": 200}
 weapon {"name": "Axe","damage": 30}
 weapon {"name": "Axe2","damage": 10.5}

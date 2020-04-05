@@ -16,7 +16,7 @@ def get_locations_of_objects(array, object):
     for i in range(0, len(array)):
         for j in range(0, len(array[i])):
             if array[i][j] == object:
-                locations.append([i, j])
+                locations.append([i * 100, j * 100])
 
     return locations
 
@@ -47,14 +47,18 @@ class Dungeon:
     def set_spawn_location(self):
         self.spawn_locations = get_locations_of_objects(self.map, "S")
 
+    def set_gateway_location(self):
+        self.gateway_location = get_locations_of_objects(self.map, "G")
+
     def fill_location_list(self):
         self.set_obstacle_location()
         self.set_enemy_location()
         self.set_spawn_location()
         self.set_treasure_location()
+        self.set_gateway_location()
 
     def spawn(self, hero):
-        self.set_spawn_location()
+        # self.set_spawn_location()
         if len(self.spawn_locations) == 0:
             return False
         else:
@@ -82,22 +86,22 @@ class Dungeon:
         direction = direction.upper()
 
         if direction == "UP":
-            new_x = self.hero.location[0] - 1
+            new_x = self.hero.location[0] - 100
             new_y = self.hero.location[1]
             if not check_for_something([new_x, new_y], self.obstacle_localtions) and new_x >= 0:
                 self.remove_hero_from_map()
-                self.hero.location[0] -= 1
+                self.hero.location[0] -= 100
                 self.hero.add_mana_from_regeneration_rate()
                 self.check_for_treasure()
                 self.check_for_enemy()
                 self.put_hero_on_map()
 
         elif direction == "DOWN":
-            new_x = self.hero.location[0] + 1
+            new_x = self.hero.location[0] + 100
             new_y = self.hero.location[1]
-            if not check_for_something([new_x, new_y], self.obstacle_localtions) and new_x < len(self.map):
+            if not check_for_something([new_x, new_y], self.obstacle_localtions) and new_x < len(self.map) * 100:
                 self.remove_hero_from_map()
-                self.hero.location[0] += 1
+                self.hero.location[0] += 100
                 self.hero.add_mana_from_regeneration_rate()
                 self.check_for_treasure()
                 self.check_for_enemy()
@@ -105,10 +109,10 @@ class Dungeon:
 
         elif direction == "RIGHT":
             new_x = self.hero.location[0]
-            new_y = self.hero.location[1] + 1
-            if not check_for_something([new_x, new_y], self.obstacle_localtions) and new_y < len(self.map[0]):
+            new_y = self.hero.location[1] + 100
+            if not check_for_something([new_x, new_y], self.obstacle_localtions) and new_y < len(self.map[0]) * 100:
                 self.remove_hero_from_map()
-                self.hero.location[1] += 1
+                self.hero.location[1] += 100
                 self.hero.add_mana_from_regeneration_rate()
                 self.check_for_treasure()
                 self.check_for_enemy()
@@ -116,10 +120,10 @@ class Dungeon:
 
         elif direction == "LEFT":
             new_x = self.hero.location[0]
-            new_y = self.hero.location[1] - 1
+            new_y = self.hero.location[1] - 100
             if not check_for_something([new_x, new_y], self.obstacle_localtions) and new_y >= 0:
                 self.remove_hero_from_map()
-                self.hero.location[1] -= 1
+                self.hero.location[1] -= 100
                 self.hero.add_mana_from_regeneration_rate()
                 self.check_for_treasure()
                 self.check_for_enemy()
@@ -128,16 +132,17 @@ class Dungeon:
     def remove_hero_from_map(self):
         hero_point_x = self.hero.location[0]
         hero_point_y = self.hero.location[1]
-        self.map[hero_point_x][hero_point_y] = "."
+        # self.map[hero_point_x][hero_point_y] = "."
 
     def put_hero_on_map(self):
         hero_point_x = self.hero.location[0]
         hero_point_y = self.hero.location[1]
-        self.map[hero_point_x][hero_point_y] = "H"
+        # self.map[hero_point_x][hero_point_y] = "H"
 
     def check_for_treasure(self):
         if check_for_something(self.hero.location, self.treasure_locations) is True:
             treasure = random_treasure(convert_treasures_as_instance(read_from_file_with_treasures('treasures.txt')))
+            self.treasure_locations.remove(self.hero.location)
             if treasure.__class__.__name__ == 'Potion':
                 if treasure.potion == 'health':
                     self.hero.take_healing(treasure.points)
@@ -147,13 +152,15 @@ class Dungeon:
                 self.hero.learn(treasure)
             else:
                 self.hero.equip(treasure)
-
+            print(treasure.__class__.__name__)
     def check_for_enemy(self):
         if check_for_something(self.hero.location, self.enemy_locations) is True:
             enemy = random_enemy(convert_enemies_as_instance(read_from_file_with_enemies('enemies.txt')))
+            enemy.location = self.hero.location
+            self.enemy_locations.remove(enemy.location)
             fight = Fight(self.hero, enemy)
             fight.mortal_kombat()
-            self.hero = fight.rerun_hero()
+            self.hero = fight.return_hero()
 
             if not self.hero.is_alive():
                 print('GAME OVER')
@@ -164,13 +171,15 @@ class Dungeon:
             hero_y = self.hero.location[1]
             nearest_enemies = []
             cast_range = self.hero.spell.cast_range
-
             for enemy in self.enemy_locations:
-                if enemy[0] >= hero_x - cast_range and enemy[0] <= hero_x + cast_range:
+                if enemy[0] >= hero_x - cast_range and enemy[0] <= hero_x + cast_range and enemy[1] == hero_y:
+                    # print(enemy)
                     nearest_enemies.append(enemy)
-                elif enemy[1] >= hero_y - cast_range and enemy[1] <= hero_y + cast_range:
+                    self.enemy_locations.remove(enemy)
+                elif enemy[1] >= hero_y - cast_range and enemy[1] <= hero_y + cast_range and enemy[0] == hero_x:
                     nearest_enemies.append(enemy)
-
+                    self.enemy_locations.remove(enemy)
+                    print(nearest_enemies)
             if len(nearest_enemies) > 0:
                 enemy = random_enemy(convert_enemies_as_instance(read_from_file_with_enemies('enemies.txt')))
                 # getting first coordinates in the list
