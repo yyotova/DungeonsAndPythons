@@ -27,7 +27,7 @@ class Test_Fight(unittest.TestCase):
         self.assertEqual(f.return_hero().health, 0)
 
     def test_fight_spell_enemy_hero_none(self):
-        hero = Hero(name = "Bron", title = "Dragonslayer", health = 100, mana = 100, mana_regeneration_rate=2)
+        hero = Hero(name="Bron", title="Dragonslayer", health=100, mana=100, mana_regeneration_rate=2)
         hero = Hero(name="Bron", title="Dragonslayer", health=100, mana=100, mana_regeneration_rate=2)
         w = Weapon(name="The Axe of Destiny", damage=20)
         hero.equip(w)

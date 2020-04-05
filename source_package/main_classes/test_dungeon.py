@@ -11,6 +11,7 @@ from source_package.main_classes.hero import Hero
 
 # test work correctly separated sorry
 
+
 class test_dungeon_class(unittest.TestCase):
     def test_creating_dungeon_and_print_it(self):
 
@@ -127,6 +128,7 @@ class test_dungeon_class(unittest.TestCase):
         dungeon.spawn(hero)
         dungeon.move_hero('Up')
         pass
+
 
 if __name__ == '__main__':
         unittest.main()

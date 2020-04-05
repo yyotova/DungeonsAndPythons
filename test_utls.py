@@ -24,7 +24,7 @@ class TestCaseConvertingTreasuers(unittest.TestCase):
     def test_converting_health_potion_and_mana_potion_into_instances(self):
         treasures = {'potion': [{'health': 20}, {'health': 40}, {'mana': 45.5}]}
         res = convert_treasures_as_instance(treasures)
-        exp = [Potion(potion='health', points=20), Potion(potion='health', points=40), Potion(potion = 'mana', points = 45.5)]
+        exp = [Potion(potion='health', points=20), Potion(potion='health', points=40), Potion(potion='mana', points=45.5)]
 
         self.assertEqual(res, exp)
 
@@ -39,7 +39,7 @@ class TestCaseConvertingTreasuers(unittest.TestCase):
         treasures = {'spell': [{'name': 'Pfu', 'damage': 20, 'mana_cost': 20, 'cast_range': 2},
         {"name": "Abrakadabra", "damage": 28, "mana_cost": 29, "cast_range": 2}]}
         res = convert_treasures_as_instance(treasures)
-        exp = [Spell(name ='Pfu',damage =  20,mana_cost = 20,cast_range = 2), Spell(name ='Abrakadabra',damage =  28,mana_cost = 29,cast_range = 2)]
+        exp = [Spell(name='Pfu', damage=20, mana_cost=20, cast_range= 2), Spell(name='Abrakadabra', damage=28, mana_cost=29, cast_range=2)]
 
         self.assertEqual(res, exp)
 

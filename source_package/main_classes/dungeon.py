@@ -58,21 +58,17 @@ class Dungeon:
         self.set_gateway_location()
 
     def spawn(self, hero):
-        # self.set_spawn_location()
         if len(self.spawn_locations) == 0:
             return False
         else:
             if self.hero is not None:
-                self.remove_hero_from_map()
                 self.hero = hero
                 self.hero.location = self.spawn_locations[0]
                 self.spawn_locations.remove(self.spawn_locations[0])
-                self.put_hero_on_map()
             else:
                 self.hero = hero
                 self.hero.location = self.spawn_locations[0]
                 self.spawn_locations.remove(self.spawn_locations[0])
-                self.put_hero_on_map()
 
     def print_map(self):
         res = ''
@@ -89,55 +85,37 @@ class Dungeon:
             new_x = self.hero.location[0] - 100
             new_y = self.hero.location[1]
             if not check_for_something([new_x, new_y], self.obstacle_localtions) and new_x >= 0:
-                self.remove_hero_from_map()
                 self.hero.location[0] -= 100
                 self.hero.add_mana_from_regeneration_rate()
                 self.check_for_treasure()
                 self.check_for_enemy()
-                self.put_hero_on_map()
 
         elif direction == "DOWN":
             new_x = self.hero.location[0] + 100
             new_y = self.hero.location[1]
             if not check_for_something([new_x, new_y], self.obstacle_localtions) and new_x < len(self.map) * 100:
-                self.remove_hero_from_map()
                 self.hero.location[0] += 100
                 self.hero.add_mana_from_regeneration_rate()
                 self.check_for_treasure()
                 self.check_for_enemy()
-                self.put_hero_on_map()
 
         elif direction == "RIGHT":
             new_x = self.hero.location[0]
             new_y = self.hero.location[1] + 100
             if not check_for_something([new_x, new_y], self.obstacle_localtions) and new_y < len(self.map[0]) * 100:
-                self.remove_hero_from_map()
                 self.hero.location[1] += 100
                 self.hero.add_mana_from_regeneration_rate()
                 self.check_for_treasure()
                 self.check_for_enemy()
-                self.put_hero_on_map()
 
         elif direction == "LEFT":
             new_x = self.hero.location[0]
             new_y = self.hero.location[1] - 100
             if not check_for_something([new_x, new_y], self.obstacle_localtions) and new_y >= 0:
-                self.remove_hero_from_map()
                 self.hero.location[1] -= 100
                 self.hero.add_mana_from_regeneration_rate()
                 self.check_for_treasure()
                 self.check_for_enemy()
-                self.put_hero_on_map()
-
-    def remove_hero_from_map(self):
-        hero_point_x = self.hero.location[0]
-        hero_point_y = self.hero.location[1]
-        # self.map[hero_point_x][hero_point_y] = "."
-
-    def put_hero_on_map(self):
-        hero_point_x = self.hero.location[0]
-        hero_point_y = self.hero.location[1]
-        # self.map[hero_point_x][hero_point_y] = "H"
 
     def check_for_treasure(self):
         if check_for_something(self.hero.location, self.treasure_locations) is True:
@@ -152,7 +130,8 @@ class Dungeon:
                 self.hero.learn(treasure)
             else:
                 self.hero.equip(treasure)
-            print(treasure.__class__.__name__)
+            print(treasure)
+
     def check_for_enemy(self):
         if check_for_something(self.hero.location, self.enemy_locations) is True:
             enemy = random_enemy(convert_enemies_as_instance(read_from_file_with_enemies('enemies.txt')))
@@ -166,30 +145,29 @@ class Dungeon:
                 print('GAME OVER')
 
     def hero_attack(self, by):
-        if by == 'spell':
-            hero_x = self.hero.location[0]
-            hero_y = self.hero.location[1]
-            nearest_enemies = []
-            cast_range = self.hero.spell.cast_range
-            for enemy in self.enemy_locations:
-                if enemy[0] >= hero_x - cast_range and enemy[0] <= hero_x + cast_range and enemy[1] == hero_y:
-                    # print(enemy)
-                    nearest_enemies.append(enemy)
-                    self.enemy_locations.remove(enemy)
-                elif enemy[1] >= hero_y - cast_range and enemy[1] <= hero_y + cast_range and enemy[0] == hero_x:
-                    nearest_enemies.append(enemy)
-                    self.enemy_locations.remove(enemy)
-                    print(nearest_enemies)
-            if len(nearest_enemies) > 0:
-                enemy = random_enemy(convert_enemies_as_instance(read_from_file_with_enemies('enemies.txt')))
-                # getting first coordinates in the list
-                enemy.location = nearest_enemies[0]
-                fight = Fight(self.hero, enemy)
-                fight.mortal_kombat()
-                self.hero = fight.return_hero()
-                if not self.hero.is_alive():
-                    print('GAME OVER')
-            else:
-                print(f'Nothing in casting range {self.hero.spell.cast_range}')
+        hero_x = self.hero.location[0]
+        hero_y = self.hero.location[1]
+
+        nearest_enemies = []
+        cast_range = self.hero.spell.cast_range
+
+        for enemy in self.enemy_locations:
+            if enemy[0] >= hero_x - cast_range and enemy[0] <= hero_x + cast_range and enemy[1] == hero_y:
+                nearest_enemies.append(enemy)
+                self.enemy_locations.remove(enemy)
+            elif enemy[1] >= hero_y - cast_range and enemy[1] <= hero_y + cast_range and enemy[0] == hero_x:
+                nearest_enemies.append(enemy)
+                self.enemy_locations.remove(enemy)
+
+        if len(nearest_enemies) > 0:
+            enemy = random_enemy(convert_enemies_as_instance(read_from_file_with_enemies('enemies.txt')))
+
+            # getting first coordinates in the list
+            enemy.location = nearest_enemies[0]
+            fight = Fight(self.hero, enemy)
+            fight.mortal_kombat()
+            self.hero = fight.return_hero()
+            if not self.hero.is_alive():
+                print('GAME OVER')
         else:
-            print('There is no enemy to attack')
+            print(f'Nothing in casting range {self.hero.spell.cast_range // 100}')
