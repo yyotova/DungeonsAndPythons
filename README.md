@@ -9,6 +9,11 @@ game
 ### Requirements
 ``` pip install -r requirements.txt```
 
+### UI
+We use pygame library. 
+So you can use ←, ↑, →, ↓ to move the hero who is in white. The enemies are in black and the treasures in red. You can attack by a spell, pressing the space button. So if the enemy is in range of the spell it will take damage to him.
+
+
 ## Characters
 
 ### Hero
@@ -26,19 +31,19 @@ The hero has the following methods:
 If our hero is dead, the method should return False. It's too late to heal our hero. If our hero is dead, the method should return False. It's too late to heal our hero. If healing is successful (Our hero is not dead), the method should return True.
 * ***take_mana(mana_points)*** -  increases his mana in two ways. 
 1. Each time he makes a move, his mana is increased by mana_regeneration_rate amount.
-2. He can drink a mana potion, which will increse his mana by the amount of mana points the potion have.
+2. He can drink a mana potion, which will increase his mana by the number of mana points the potion has.
 Hero's mana cannot go above the start mana given to him, neither he can go down below 0 mana.
 
-* ***equip(weapon)*** - Our hero can equip one weapon and one spell in order to have damage.
+* ***equip(weapon)*** - Our hero can equip one weapon and one spell to have damage.
 * ***learn(spell)*** - Our hero can learn only 1 spell at a time.
 If you learn a given spell, and after this learn another one, the hero can use only the latest.
-* ***attack()*** - returns the demage done either from the weapon or from the spell.
-If the hero has not been equiped with weapon or he has no spells, his attack points are 0.
+* ***attack()*** - returns the damage done either from the weapon or from the spell.
+If the hero has not been equipped with weapons or he has no spells, his attack points are 0.
 
 The method can be called in two ways:
 
-- attack(by="weapon") - returns the damage of the weapon if equiped or 0 otherwise
-- attack(by="magic") - returns the damage of the spell, if quiped or 0 otherwise
+- attack(by="weapon") - returns the damage of the weapon if equipped or 0 otherwise
+- attack(by="magic") - returns the damage of the spell, if equipped or 0 otherwise
 
 ### Enemy
 Enemy has the following methods just like our hero.
@@ -52,23 +57,23 @@ Enemy has the following methods just like our hero.
 * ```take_damage(damage)```
 
 Enemies cannot regenerate mana!
-Enemies have starting damage, which is different from a weapon or a spell. They can equip weapons or learn spells but it is not required for them in order to deal damage, as it is for our hero.
+Enemies have starting damage, which is different from a weapon or a spell. They can equip weapons or learn spells but it is not required for them to deal with the damage, as it is for our hero.
 
 ## Weapons and spells
-We have ```treasures.txt``` file that contains the information about possible weapons' ans spells' attributes.In order for our hero to have proper damage, he must be equiped with either a weapon or a spell. One hero can carry at max 1 weapon and 1 spell.
+We have ```treasures.txt``` file that contains the information about possible weapons' and spells' attributes. For our hero to have proper damage, he must be equipped with either a weapon or a spell. One hero can carry at max 1 weapon and 1 spell.
 
 ## Dungeon
-This is 2D map that we load from a file.
-There are spawn points for different levels, obstacles, treasures, enemies and a gateway, whis is the end of the dungeon.
+This is a 2D map that we load from a file.
+There are spawn points for different levels, obstacles, treasures, enemies, and a gateway, which is the end of the dungeon.
 
 ## Fights
-Our hero must fight his enemies in order to reach the exit of the dungeon.
+Our hero must fight his enemies to reach the exit of the dungeon.
 A fight happens when:
 * Our hero walks into the same position as the enemy - then the fights start automatically.
-* Our hero is within some range of the enemy. Then we can attack our enemy with spell.
+* Our hero is within some range of the enemy. Then we can attack our enemy with a spell.
 
 The fight follows this algorithm:
 * Our hero always attacks first.
 * We always use the attack that deals more damage.
-* If our weapon and our spell deals the same amount of damage, use the spell first.
+* If our weapon and our spell deal the same amount of damage, use the spell first.
 * When you run out of mana, use the weapon (if any)
